@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/style.css">
+  <link rel="stylesheet" href= "{{ url_for("static",filename="style.css") }}">
+  <title>AI Songwriter</title>
+</head>
+<body>
+  <h1>AI Songwriter</h1>
+  <p>I trained artificial neural networks to generate song lyrics. Follow the instructions below to see it in action!</p>
+  <ol>
+    <li>Select a dataset (Lou Reed/punk).</li>
+    <li>Choose the model (LSTM/transformer).</li>
+    <li>Enter an optional seed text.</li>
+    <li>Enter the number of lines to generate.</li>
+  </ol>
+  <form action="{{ url_for("main") }}" method="POST">
+    <select name="dataset" class="form">
+      <option value="loureed" {% if dataset=="loureed" %} selected {% endif %}>Lou Reed</option>
+      <option value="punk" {% if dataset=="punk" %} selected {% endif %}>punk</option>
+    </select>
+    <select name="model" class="form">
+      <option value="lstm" {% if model=="lstm" %} selected {% endif %}>LSTM</option>
+      <option value="transformer" {% if model=="transformer" %} selected {% endif %}>transformer</option>
+    </select>
+    <label class="form"><input name="seed" type="text" placeholder="seed" value="{{ seed }}"></label>
+    <label class="form"><input name="n" type="number" placeholder="n" value="{{ n }}" min="1" max="50" required></label>
+    <label class="form"><input type="submit" value="Generate"></label>
+  </form>
+  <div class="lyrics">
+    <p>
+      {% if lyrics %}
+        {% for lyric in lyrics %}
+          {{ lyric }}
+          <br>
+        {% endfor %}
+      {% endif %}
+    </p>
+  </div>
+</body>
+</html>
